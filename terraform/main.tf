@@ -18,6 +18,7 @@ provider "civo" {
 
 resource "civo_firewall" "openro-firewall" {
     name = "openro-firewall"
+    create_default_rules = false
 }
 
 resource "civo_firewall_rule" "openro-kubeapi" {
