@@ -32,6 +32,46 @@ resource "civo_firewall_rule" "openro-kubeapi" {
     action = "allow"
 }
 
+resource "civo_firewall_rule" "tcp-egress-allow" {
+    firewall_id = civo_firewall.openro-firewall.id
+    protocol = "tcp"
+    start_port = "1"
+    end_port = "65535"
+    cidr = ["0.0.0.0/0"]
+    direction = "egress"
+    label = "security"
+    action = "allow"
+}
+
+resource "civo_firewall_rule" "udp-egress-allow" {
+    firewall_id = civo_firewall.openro-firewall.id
+    protocol = "udp"
+    start_port = "1"
+    end_port = "65535"
+    cidr = ["0.0.0.0/0"]
+    direction = "egress"
+    label = "security"
+    action = "allow"
+}
+
+resource "civo_firewall_rule" "icmp-ingress-allow" {
+    firewall_id = civo_firewall.openro-firewall.id
+    protocol = "icmp"
+    cidr = ["0.0.0.0/0"]
+    direction = "ingress"
+    label = "security"
+    action = "allow"
+}
+
+resource "civo_firewall_rule" "icmp-egress-allow" {
+    firewall_id = civo_firewall.openro-firewall.id
+    protocol = "icmp"
+    cidr = ["0.0.0.0/0"]
+    direction = "egress"
+    label = "security"
+    action = "allow"
+}
+
 data "civo_size" "small" {
     filter {
         key = "name"
