@@ -31,12 +31,26 @@ resource "civo_firewall_rule" "openro-kubeapi" {
     action = "allow"
 }
 
+data "civo_size" "small" {
+    filter {
+        key = "name"
+        values = ["g4s.kube.xsmall"]
+        match_by = "re"
+    }
+
+    filter {
+        key = "type"
+        values = ["Kubernetes"]
+    }
+
+}
+
 resource "civo_kubernetes_cluster" "openro" {
     name = "openro"
     firewall_id = civo_firewall.openro-firewall.id
     pools {
         label = "openro-worker"
-        size = element(data.civo_size.xsmall.sizes, 0).name
+        size = element(data.civo_size.small.sizes, 0).name
         node_count = 1
     }
 }
