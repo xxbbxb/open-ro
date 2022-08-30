@@ -21,7 +21,7 @@ resource "civo_firewall" "openro-firewall" {
 }
 
 resource "civo_firewall_rule" "openro-kubeapi" {
-    firewall_id = civo_firewall.opero-firewall.id
+    firewall_id = civo_firewall.openro-firewall.id
     protocol = "tcp"
     start_port = "6443"
     end_port = "6443"
