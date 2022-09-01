@@ -75,7 +75,7 @@ resource "civo_firewall_rule" "icmp-egress-allow" {
 data "civo_size" "small" {
     filter {
         key = "name"
-        values = ["g4s.kube.xsmall"]
+        values = ["g4s.kube.small"]
         match_by = "re"
     }
 
