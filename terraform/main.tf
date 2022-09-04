@@ -72,6 +72,8 @@ resource "civo_firewall_rule" "udp-egress-allow" {
 resource "civo_firewall_rule" "icmp-ingress-allow" {
     firewall_id = civo_firewall.open-ro-firewall.id
     protocol = "icmp"
+    start_port = "1"
+    end_port = "65535"
     cidr = ["0.0.0.0/0"]
     direction = "ingress"
     label = "security"
@@ -81,6 +83,8 @@ resource "civo_firewall_rule" "icmp-ingress-allow" {
 resource "civo_firewall_rule" "icmp-egress-allow" {
     firewall_id = civo_firewall.open-ro-firewall.id
     protocol = "icmp"
+    start_port = "1"
+    end_port = "65535"
     cidr = ["0.0.0.0/0"]
     direction = "egress"
     label = "security"
@@ -101,7 +105,7 @@ data "civo_size" "small" {
 
 }
 
-resource "civo_kubernetes_cluster" "openro" {
+resource "civo_kubernetes_cluster" "open-ro" {
     name = "openro"
     firewall_id = civo_firewall.open-ro-firewall.id
     pools {
@@ -109,4 +113,9 @@ resource "civo_kubernetes_cluster" "openro" {
         size = element(data.civo_size.small.sizes, 0).name
         node_count = 1
     }
+}
+
+resource "cloudflare_zone" "open-ro" {
+  name = "open-ro.com"
+  account_id = var.cloudflare_account_id
 }
