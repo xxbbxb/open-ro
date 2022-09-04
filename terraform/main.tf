@@ -108,6 +108,7 @@ data "civo_size" "small" {
 resource "civo_kubernetes_cluster" "open-ro" {
     name = "openro"
     firewall_id = civo_firewall.open-ro-firewall.id
+    applications = "Traefik-v2-nodeport"
     pools {
         label = "openro-worker"
         size = element(data.civo_size.small.sizes, 0).name

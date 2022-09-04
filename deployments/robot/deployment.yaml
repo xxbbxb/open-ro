@@ -16,15 +16,15 @@ spec:
     spec:
       containers:
       - name: robot
-        image: robot:latest
+        image: ttl.sh/5d03e598-2c51-11ed-8c1e-00155d6c28b2:6h
         imagePullPolicy: IfNotPresent
         command: [./robot]
         env:
           - name: TELEGRAM_BOT_TOKEN
             valueFrom:
               secretKeyRef:
-                key: open-ro-robot
-                name: TELEGRAM_BOT_TOKEN
+                key: TELEGRAM_BOT_TOKEN
+                name: open-ro-robot
         resources:
           requests:
             memory: "32Mi"

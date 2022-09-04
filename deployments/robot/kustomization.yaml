@@ -5,6 +5,6 @@ resources:
 - deployment.yaml
 - ingress.yaml
 secretGenerator:
-  - name: open-ro-robot
-    envs:
-      - .env
+- name: open-ro-robot
+  envs:
+    - .env
