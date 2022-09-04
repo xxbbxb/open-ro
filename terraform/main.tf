@@ -50,19 +50,8 @@ resource "civo_firewall_rule" "openro-kubeapi" {
 resource "civo_firewall_rule" "openro-loginserver" {
     firewall_id = civo_firewall.open-ro-firewall.id
     protocol = "tcp"
-    start_port = "6900"
-    end_port = "6900"
-    cidr = ["0.0.0.0/0"]
-    direction = "ingress"
-    label = "openro"
-    action = "allow"
-}
-
-resource "civo_firewall_rule" "openro-loginserver2" {
-    firewall_id = civo_firewall.open-ro-firewall.id
-    protocol = "tcp"
-    start_port = "31048"
-    end_port = "31048"
+    start_port = "5000"
+    end_port = "7000"
     cidr = ["0.0.0.0/0"]
     direction = "ingress"
     label = "openro"
