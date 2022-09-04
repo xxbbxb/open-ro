@@ -115,7 +115,7 @@ resource "civo_kubernetes_cluster" "open-ro" {
     }
 }
 
-resource "cloudflare_zone" "main" {
+resource "cloudflare_zone" "open-ro" {
   zone = "open-ro.com"
   account_id = var.cloudflare_account_id
 }
