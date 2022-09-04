@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: open-ro-robot
+spec:
+  rules:
+  - host: robot.open-ro.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: open-ro-robot
+            port:
+              number: 443
+        path: /telegram
+        pathType: Prefix

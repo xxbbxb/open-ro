@@ -5,16 +5,31 @@ terraform {
       source = "civo/civo"
       version = ">= 1.0.21"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 3.22.0"
+    }
   }
 }
 
-variable civo_token {}
-
-provider "civo" {
-    token = var.civo_token
-    region = "FRA1"
+terraform {
+  backend "remote" {
+    hostname = "xxbbxb.scalr.io"
+    organization = "env-u77fmbj0qv4r6qg"
+    workspaces {
+      name = "open-ro-prod"
+    }
+  }
 }
 
+provider "civo" {
+  token = var.civo_token
+  region = "FRA1"
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
 
 resource "civo_firewall" "open-ro-firewall" {
     name = "open-ro-firewall"

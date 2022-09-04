@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open-ro-robot
+  labels:
+    app: open-ro-robot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open-ro-robot
+  template:
+    metadata:
+      labels:
+        app: open-ro-robot
+    spec:
+      containers:
+      - name: robot
+        image: robot:latest
+        imagePullPolicy: IfNotPresent
+        command: [./robot]
+        env:
+          - name: TELEGRAM_BOT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                key: open-ro-robot
+                name: TELEGRAM_BOT_TOKEN
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
+        ports:
+          - containerPort: 8443
+            name: http
+        livenessProbe:
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          failureThreshold: 3
+          httpGet:
+            path: "/health"
+            port: 8443
+            scheme: HTTPS
+        readinessProbe:
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          failureThreshold: 3
+          httpGet:
+            path: "/health"
+            port: 8443
+            scheme: HTTPS
+        securityContext:
+          runAsUser: 2000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
