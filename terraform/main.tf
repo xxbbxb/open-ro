@@ -47,6 +47,28 @@ resource "civo_firewall_rule" "openro-kubeapi" {
     action = "allow"
 }
 
+resource "civo_firewall_rule" "openro-loginserver" {
+    firewall_id = civo_firewall.open-ro-firewall.id
+    protocol = "tcp"
+    start_port = "6900"
+    end_port = "6900"
+    cidr = ["0.0.0.0/0"]
+    direction = "ingress"
+    label = "openro"
+    action = "allow"
+}
+
+resource "civo_firewall_rule" "openro-loginserver2" {
+    firewall_id = civo_firewall.open-ro-firewall.id
+    protocol = "tcp"
+    start_port = "31048"
+    end_port = "31048"
+    cidr = ["0.0.0.0/0"]
+    direction = "ingress"
+    label = "openro"
+    action = "allow"
+}
+
 resource "civo_firewall_rule" "tcp-egress-allow" {
     firewall_id = civo_firewall.open-ro-firewall.id
     protocol = "tcp"
@@ -108,7 +130,7 @@ data "civo_size" "small" {
 resource "civo_kubernetes_cluster" "open-ro" {
     name = "openro"
     firewall_id = civo_firewall.open-ro-firewall.id
-    applications = "Traefik-v2-nodeport"
+    applications = "Traefik-v2-nodeport,MariaDB:5GB"
     pools {
         label = "openro-worker"
         size = element(data.civo_size.small.sizes, 0).name

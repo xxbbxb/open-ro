@@ -66,13 +66,16 @@ type TelegramBot struct {
 	webhookSecret string
 }
 
-func NewBot(u string, token string, webhookUrl string, webHookCertReader io.Reader) (*TelegramBot, error) {
+func NewBot(u string, token string, webhookUrl string) (*TelegramBot, error) {
+	if webhookUrl == "" {
+		return nil, fmt.Errorf("webhook url not specified")
+	}
 	_, err := url.ParseRequestURI(u)
 	if err != nil {
 		return nil, err
 	}
 	if token == "" {
-		return nil, fmt.Errorf("telegram token not provided")
+		return nil, fmt.Errorf("telegram token not specified")
 	}
 	secretBytes := sha256.Sum256([]byte(token))
 	bot := &TelegramBot{
@@ -92,7 +95,7 @@ func NewBot(u string, token string, webhookUrl string, webHookCertReader io.Read
 			Url:            webhookUrl,
 			AllowedUpdates: []string{"message"},
 			SecretToken:    bot.webhookSecret,
-		}, webHookCertReader)
+		})
 		if err != nil {
 			panic(err)
 		}
@@ -111,13 +114,17 @@ func (t *TelegramBot) WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, "can't parse json", http.StatusBadRequest)
 		}
-		t.SendMessage(MessageToSend{
-			Text:                  fmt.Sprintf("%s, %v", u.Msg.Text, u.Msg.User),
+		fmt.Println(string(body))
+		err = t.SendMessage(MessageToSend{
+			ChatId:                u.Msg.Chat.Id,
+			Text:                  fmt.Sprintf("%d, %s: ```\n%v\n```", u.Msg.Chat.Id, u.Msg.Text, u.Msg.User),
 			DisableWebPagePreview: true,
 			ParseMode:             "MarkdownV2",
 		})
+		fmt.Println(err)
 	} else {
 		http.Error(w, "missing X-Telegram-Bot-Api-Secret-Token token", http.StatusBadRequest)
+		return
 	}
 	w.Write([]byte("200 Ok"))
 }
@@ -143,9 +150,9 @@ func (t *TelegramBot) GetWebhookInfo() (*WebhookInfo, error) {
 	return &h, nil
 }
 
-func (t *TelegramBot) SetWebhook(h WebhookInfo, certReader io.Reader) error {
+func (t *TelegramBot) SetWebhook(h WebhookInfo) error {
 	const request = "setWebhook"
-	if certReader != nil {
+	/*if certReader != nil {
 		files := []FileToUpload{
 			{
 				Name:   "certificate",
@@ -155,9 +162,10 @@ func (t *TelegramBot) SetWebhook(h WebhookInfo, certReader io.Reader) error {
 		_, err := t.Do("POST", request, h, files)
 		return err
 	} else {
-		_, err := t.Do("POST", request, h, nil)
-		return err
 	}
+	*/
+	_, err := t.Do("POST", request, h, nil)
+	return err
 }
 
 func (t *TelegramBot) Do(method string, apiMethod string, payload interface{}, files []FileToUpload) ([]byte, error) {
@@ -190,6 +198,7 @@ func (t *TelegramBot) Do(method string, apiMethod string, payload interface{}, f
 			payloadBytes, _ = json.Marshal(payload)
 		}
 	}
+	fmt.Println(string(payloadBytes))
 	r, err := http.NewRequestWithContext(ctx, method, fmt.Sprintf("%s/bot%s/%s", t.apiBaseUrl, t.token, apiMethod), bytes.NewReader(payloadBytes))
 
 	if err != nil {

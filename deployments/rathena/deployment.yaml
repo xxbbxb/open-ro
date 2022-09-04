@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rathena
+  labels:
+    app: rathena
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: rathena
+  template:
+    metadata:
+      labels:
+        app: rathena
+    spec:
+      containers:
+      - name: map-server
+        image: simonovbs/rathena:0.0.1
+        imagePullPolicy: IfNotPresent
+        command: [./map-server]
+        volumeMounts:
+        - name: conf-import
+          mountPath: /rathena/conf/import
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 5121
+            name: map
+        livenessProbe:
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          tcpSocket:
+            port: 5121
+      - name: char-server
+        image: simonovbs/rathena:0.0.1
+        imagePullPolicy: IfNotPresent
+        command: [./char-server]
+        volumeMounts:
+        - name: conf-import
+          mountPath: /rathena/conf/import
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 6121
+            name: char
+        livenessProbe:
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          tcpSocket:
+            port: 6121
+      - name: login-server
+        image: simonovbs/rathena:0.0.1
+        imagePullPolicy: IfNotPresent
+        command: [./login-server]
+        volumeMounts:
+        - name: conf-import
+          mountPath: /rathena/conf/import
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 6900
+            name: char
+        livenessProbe:
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          tcpSocket:
+            port: 6900
+      volumes:
+      - name: conf-import
+        secret:
+          secretName: conf-import

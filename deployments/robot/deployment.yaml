@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: robot
-        image: ttl.sh/5d03e598-2c51-11ed-8c1e-00155d6c28b2:6h
+        image: ttl.sh/5d03e598-2c51-11ed-8c1e-00155d6c28c3:6h
         imagePullPolicy: IfNotPresent
         command: [./robot]
         env:
@@ -24,6 +24,11 @@ spec:
             valueFrom:
               secretKeyRef:
                 key: TELEGRAM_BOT_TOKEN
+                name: open-ro-robot
+          - name: TELEGRAM_WEBHOOK_URL
+            valueFrom:
+              secretKeyRef:
+                key: TELEGRAM_WEBHOOK_URL
                 name: open-ro-robot
         resources:
           requests:
@@ -33,24 +38,24 @@ spec:
             memory: "64Mi"
             cpu: "100m"
         ports:
-          - containerPort: 8443
+          - containerPort: 5555
             name: http
         livenessProbe:
-          initialDelaySeconds: 60
+          initialDelaySeconds: 5
           periodSeconds: 60
           failureThreshold: 3
+          successThreshold: 1
           httpGet:
             path: "/health"
-            port: 8443
-            scheme: HTTPS
+            port: 5555
         readinessProbe:
-          initialDelaySeconds: 60
+          initialDelaySeconds: 5
           periodSeconds: 30
           failureThreshold: 3
+          successThreshold: 1
           httpGet:
             path: "/health"
-            port: 8443
-            scheme: HTTPS
+            port: 5555
         securityContext:
           runAsUser: 2000
           allowPrivilegeEscalation: false

@@ -11,6 +11,6 @@ spec:
           service:
             name: open-ro-robot
             port:
-              number: 443
+              number: 80
         path: /telegram
         pathType: Prefix
