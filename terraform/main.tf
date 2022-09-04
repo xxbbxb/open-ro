@@ -120,3 +120,11 @@ resource "cloudflare_zone" "open-ro" {
   zone = "open-ro.com"
   account_id = var.cloudflare_account_id
 }
+
+resource "cloudflare_record" "robot" {
+  zone_id = cloudflare_zone.open-ro.id
+  type = "A"
+  name = "robot"
+  proxied = true
+  value = civo_kubernetes_cluster.open-ro.master_ip
+}
