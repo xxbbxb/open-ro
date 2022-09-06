@@ -18,12 +18,15 @@ spec:
     spec:
       containers:
       - name: map-server
-        image: simonovbs/rathena:0.0.1
+        image: simonovbs/rathena:0.0.3
         imagePullPolicy: IfNotPresent
         command: [./map-server]
         volumeMounts:
         - name: conf-import
           mountPath: /rathena/conf/import
+        - name: customizations
+          mountPath: /rathena/npc/scripts_custom.conf
+          subPath: scripts_custom.conf
         resources:
           requests:
             memory: "256Mi"
@@ -46,6 +49,9 @@ spec:
         volumeMounts:
         - name: conf-import
           mountPath: /rathena/conf/import
+        - name: customizations
+          mountPath: /rathena/npc/scripts_custom.conf
+          subPath: scripts_custom.conf
         resources:
           requests:
             memory: "256Mi"
@@ -68,6 +74,9 @@ spec:
         volumeMounts:
         - name: conf-import
           mountPath: /rathena/conf/import
+        - name: customizations
+          mountPath: /rathena/npc/scripts_custom.conf
+          subPath: scripts_custom.conf
         resources:
           requests:
             memory: "256Mi"
@@ -87,3 +96,6 @@ spec:
       - name: conf-import
         secret:
           secretName: conf-import
+      - name: customizations
+        configMap:
+          name: customizations

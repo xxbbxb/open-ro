@@ -11,3 +11,9 @@ spec:
   - name: login
     port: 6900
     targetPort: 6900
+  - name: char
+    port: 6121
+    targetPort: 6121
+  - name: map
+    port: 5121
+    targetPort: 5121
