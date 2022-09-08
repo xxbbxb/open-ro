@@ -30,3 +30,6 @@ override.tf.json
 .env
 conf-import
 .vscode
+.hugo_build.lock
+app/website/public/*
+app/website/resources/_gen
