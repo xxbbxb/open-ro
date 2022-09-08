@@ -12,5 +12,5 @@ spec:
             name: open-ro-robot
             port:
               number: 80
-        path: /telegram
+        path: /telegram-webhook
         pathType: Prefix

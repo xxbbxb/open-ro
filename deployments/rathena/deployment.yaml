@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: map-server
-        image: simonovbs/rathena:0.0.3
+        image: simonovbs/rathena:0.0.2
         imagePullPolicy: IfNotPresent
         command: [./map-server]
         volumeMounts:
@@ -43,7 +43,7 @@ spec:
           tcpSocket:
             port: 5121
       - name: char-server
-        image: simonovbs/rathena:0.0.1
+        image: simonovbs/rathena:0.0.2
         imagePullPolicy: IfNotPresent
         command: [./char-server]
         volumeMounts:
@@ -68,7 +68,7 @@ spec:
           tcpSocket:
             port: 6121
       - name: login-server
-        image: simonovbs/rathena:0.0.1
+        image: simonovbs/rathena:0.0.2
         imagePullPolicy: IfNotPresent
         command: [./login-server]
         volumeMounts:

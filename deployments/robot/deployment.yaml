@@ -16,20 +16,12 @@ spec:
     spec:
       containers:
       - name: robot
-        image: ttl.sh/5d03e598-2c51-11ed-8c1e-00155d6c28c3:6h
-        imagePullPolicy: IfNotPresent
-        command: [./robot]
-        env:
-          - name: TELEGRAM_BOT_TOKEN
-            valueFrom:
-              secretKeyRef:
-                key: TELEGRAM_BOT_TOKEN
-                name: open-ro-robot
-          - name: TELEGRAM_WEBHOOK_URL
-            valueFrom:
-              secretKeyRef:
-                key: TELEGRAM_WEBHOOK_URL
-                name: open-ro-robot
+        image: simonovbs/openrobot:0.0.8
+        imagePullPolicy: Always
+        command: [./openrobot]
+        envFrom:
+        - secretRef:
+            name: open-ro-robot
         resources:
           requests:
             memory: "32Mi"

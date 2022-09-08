@@ -6,10 +6,10 @@ resources:
 secretGenerator:
 - name: conf-import
   files:
+  - conf-import/battle_conf.txt
   - conf-import/char_conf.txt
   - conf-import/inter_conf.txt
   - conf-import/map_conf.txt
-  - conf-import/battle_conf.txt
 configMapGenerator:
 - name: customizations
   files:

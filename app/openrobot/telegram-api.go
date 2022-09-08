@@ -17,6 +17,11 @@ import (
 	"time"
 )
 
+type ApiResponse struct {
+	Ok     bool        `json:"ok"`
+	Result interface{} `json:"result"`
+}
+
 type Update struct {
 	Id  int64   `json:"update_id"`
 	Msg Message `json:"message"`
@@ -51,7 +56,7 @@ type MessageToSend struct {
 	ChatId                int64  `json:"chat_id"`
 	Text                  string `json:"text"`
 	DisableWebPagePreview bool   `json:"disable_web_page_preview"`
-	ParseMode             string `json:"parse_mode"`
+	ParseMode             string `json:"parse_mode,omitempty"`
 }
 
 type FileToUpload struct {
@@ -66,17 +71,20 @@ type TelegramBot struct {
 	webhookSecret string
 }
 
-func NewBot(u string, token string, webhookUrl string) (*TelegramBot, error) {
+// NewBot creates webhook and bot
+func NewBot(u string, token string, webhookUrl string) *TelegramBot {
+	var err error
 	if webhookUrl == "" {
-		return nil, fmt.Errorf("webhook url not specified")
-	}
-	_, err := url.ParseRequestURI(u)
-	if err != nil {
-		return nil, err
+		panic("webhook url not specified")
 	}
 	if token == "" {
-		return nil, fmt.Errorf("telegram token not specified")
+		panic("telegram token not specified")
 	}
+	_, err = url.ParseRequestURI(u)
+	if err != nil {
+		panic(err)
+	}
+
 	secretBytes := sha256.Sum256([]byte(token))
 	bot := &TelegramBot{
 		client: &http.Client{
@@ -100,7 +108,7 @@ func NewBot(u string, token string, webhookUrl string) (*TelegramBot, error) {
 			panic(err)
 		}
 	}
-	return bot, nil
+	return bot
 }
 
 func (t *TelegramBot) WebhookHandler(w http.ResponseWriter, r *http.Request) {
@@ -114,14 +122,8 @@ func (t *TelegramBot) WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, "can't parse json", http.StatusBadRequest)
 		}
-		fmt.Println(string(body))
-		err = t.SendMessage(MessageToSend{
-			ChatId:                u.Msg.Chat.Id,
-			Text:                  fmt.Sprintf("%d, %s: ```\n%v\n```", u.Msg.Chat.Id, u.Msg.Text, u.Msg.User),
-			DisableWebPagePreview: true,
-			ParseMode:             "MarkdownV2",
-		})
-		fmt.Println(err)
+		log.WithField("payload", u).Debug("new telegram update recived")
+		go handleUpdateAsCommand(t, u)
 	} else {
 		http.Error(w, "missing X-Telegram-Bot-Api-Secret-Token token", http.StatusBadRequest)
 		return
@@ -143,7 +145,10 @@ func (t *TelegramBot) GetWebhookInfo() (*WebhookInfo, error) {
 		return nil, err
 	}
 	var h WebhookInfo
-	err = json.Unmarshal(b, &h)
+	var r ApiResponse
+	err = json.Unmarshal(b, &r)
+	result, _ := json.Marshal(r.Result)
+	json.Unmarshal(result, &h)
 	if err != nil {
 		return nil, err
 	}
@@ -171,21 +176,23 @@ func (t *TelegramBot) SetWebhook(h WebhookInfo) error {
 func (t *TelegramBot) Do(method string, apiMethod string, payload interface{}, files []FileToUpload) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+	l := log.WithField("method", method)
 	var payloadBytes []byte
 	var contentType string
 	if len(files) > 0 {
+		l.Infof("going to upload %s files", len(files))
 		var buf bytes.Buffer
 		fw := multipart.NewWriter(&buf)
-		for f, v := range getTagValues(payload) {
-			err := fw.WriteField(f, v)
+		for field, v := range getTagValues(payload) {
+			err := fw.WriteField(field, v)
 			if err != nil {
-				return nil, fmt.Errorf("unable to add field %s to multipart/form-data", f)
+				l.WithField("form-data-field", field).Warn(err)
 			}
 		}
 		for _, f := range files {
 			w, err := fw.CreateFormFile(f.Name, f.Name)
 			if err != nil {
-				return nil, fmt.Errorf("unable to add file %s to multipart/form-data", f.Name)
+				l.WithField("form-data-field", f.Name).Warn(err)
 			}
 			io.Copy(w, f.Reader)
 		}
@@ -198,7 +205,9 @@ func (t *TelegramBot) Do(method string, apiMethod string, payload interface{}, f
 			payloadBytes, _ = json.Marshal(payload)
 		}
 	}
-	fmt.Println(string(payloadBytes))
+	if len(payloadBytes) > 0 {
+		l.WithField("payload", string(payloadBytes)).Debug("try post body")
+	}
 	r, err := http.NewRequestWithContext(ctx, method, fmt.Sprintf("%s/bot%s/%s", t.apiBaseUrl, t.token, apiMethod), bytes.NewReader(payloadBytes))
 
 	if err != nil {
@@ -209,16 +218,15 @@ func (t *TelegramBot) Do(method string, apiMethod string, payload interface{}, f
 
 	resp, err := t.client.Do(r)
 	if err != nil {
-		return nil, fmt.Errorf("failed to do %s /%s", method, apiMethod)
+		l.Error(err)
+		return nil, fmt.Errorf("failed to do /%s", apiMethod)
 	}
 	defer resp.Body.Close()
 	buf, err := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
-	if err != nil {
-		return nil, fmt.Errorf("failed to read %s /%s server response", method, apiMethod)
-	}
-	if resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("telegram api returned error %d: %s", resp.StatusCode, string(buf))
+	if err != nil || resp.StatusCode >= 300 {
+		l.Error(resp.StatusCode, string(buf), err)
+		return nil, fmt.Errorf("failed to read /%s server response", apiMethod)
 	}
 	return buf, nil
 }
