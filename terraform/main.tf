@@ -139,3 +139,11 @@ resource "cloudflare_record" "robot" {
   proxied = true
   value = civo_kubernetes_cluster.open-ro.master_ip
 }
+
+resource "cloudflare_record" "site" {
+  zone_id = cloudflare_zone.open-ro.id
+  type = "CNAME"
+  name = "@"
+  proxied = true
+  value = "xxbbxb.github.io"
+}
