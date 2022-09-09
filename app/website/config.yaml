@@ -28,14 +28,14 @@ params:
       icon: mouse-globe
       text: >
         * In-cast: 150 DEX * Max ASPD: 190 * Location: Europe
-      url: /help/features
+      url: /doc/info/
       buttonText: Read more...
     - title: No admin panel
       icon: mobile-feed
       text: >
         Create game accounts in telegram bot
       url: https://t.me/openrohelperbot
-      buttonText: Get started
+      buttonText: Create account
     - title: Why "Open"?
       icon: laptop-cloud
       text: >
@@ -50,8 +50,6 @@ params:
     buttonLink: "#"
   # Customizable navbar. For a dropdown, add a "sublinks" list.
   navbar:
-  - title: Donate
-    url: /
   - title: Docs
     sublinks:
     - title: Server info
@@ -60,9 +58,11 @@ params:
       url: /docs/faq/
   - title: Download
     url: /
-  - title: Open account
+  - title: Manage account
     url: https://t.me/openrohelperbot
     button: true
+  - title: Donate
+    url: /
   footer:
     # Logo (from /images/logos/___)
     logo: fresh-white-alt.svg
