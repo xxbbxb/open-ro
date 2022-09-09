@@ -140,7 +140,7 @@ resource "cloudflare_record" "robot" {
   value = civo_kubernetes_cluster.open-ro.master_ip
 }
 
-resource "cloudflare_record" "site" {
+resource "cloudflare_record" "apex" {
   zone_id = cloudflare_zone.open-ro.id
   type = "CNAME"
   name = "@"
@@ -148,7 +148,7 @@ resource "cloudflare_record" "site" {
   value = "xxbbxb.github.io"
 }
 
-resource "cloudflare_record" "site" {
+resource "cloudflare_record" "www" {
   zone_id = cloudflare_zone.open-ro.id
   type = "CNAME"
   name = "www"
