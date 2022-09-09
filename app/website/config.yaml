@@ -58,7 +58,7 @@ params:
       url: /docs/faq/
   - title: Download
     url: /
-  - title: Manage account
+  - title: My account
     url: https://t.me/openrohelperbot
     button: true
   - title: Donate
