@@ -132,6 +132,13 @@ resource "cloudflare_zone" "open-ro" {
   account_id = var.cloudflare_account_id
 }
 
+resource "cloudflare_zone_settings_override" "test" {
+  zone_id = cloudflare_zone.open-ro.id
+  settings {
+    ssl = "full" 
+  }
+}
+
 resource "cloudflare_record" "robot" {
   zone_id = cloudflare_zone.open-ro.id
   type = "A"
