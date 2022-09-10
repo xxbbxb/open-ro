@@ -155,3 +155,11 @@ resource "cloudflare_record" "www" {
   proxied = true
   value = "xxbbxb.github.io"
 }
+
+resource "cloudflare_record" "www" {
+  zone_id = cloudflare_zone.open-ro.id
+  type = "TXT"
+  name = "open-ro.com"
+  value = "google-site-verification=kWFm_i5KOQmA-h6S39xlYM6_dcwJmW_V61RDQsa2rAc"
+}
+

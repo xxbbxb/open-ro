@@ -28,7 +28,7 @@ params:
       icon: mouse-globe
       text: >
         * In-cast: 150 DEX * Max ASPD: 190 * Location: Europe
-      url: /doc/info/
+      url: /docs/info/
       buttonText: Read more...
     - title: No admin panel
       icon: mobile-feed
@@ -40,7 +40,7 @@ params:
       icon: laptop-cloud
       text: >
         Server deployment and configuration is open source
-      url: https://github.com/xxbbxb/
+      url: https://github.com/xxbbxb/open-ro
       buttonText: See Github
   section3:
     title: Download client
@@ -57,12 +57,12 @@ params:
     - title: FAQ
       url: /docs/faq/
   - title: Download
-    url: /
+    url: /download/
   - title: My account
     url: https://t.me/openrohelperbot
     button: true
-  - title: Donate
-    url: /
+  #- title: Donate
+  #  url: /
   footer:
     # Logo (from /images/logos/___)
     logo: fresh-white-alt.svg
@@ -70,7 +70,7 @@ params:
     socialmediatitle: Follow Us
     # Social media links (GitHub, Twitter, etc.). All are optional.
     socialmedia:
-    - link: https://github.com/lucperkins/github-fresh
+    - link: https://github.com/xxbbxb/open-ro
       # Icons are from Font Awesome
       icon: github
     - link: https://t.me/openrohelperbot
@@ -82,5 +82,7 @@ params:
       column2:
         title: "Docs"
         links:
+        - text: Info
+          link: /docs/info/
         - text: FAQ
-          link: /docs/faqq
+          link: /docs/faq/

@@ -10,7 +10,9 @@ secretGenerator:
   - conf-import/char_conf.txt
   - conf-import/inter_conf.txt
   - conf-import/map_conf.txt
+  
 configMapGenerator:
 - name: customizations
   files:
+    - groups.yml=customizations/groups.yml
     - scripts_custom.conf=customizations/npc_scripts_custom.conf

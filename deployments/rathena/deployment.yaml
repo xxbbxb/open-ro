@@ -27,6 +27,9 @@ spec:
         - name: customizations
           mountPath: /rathena/npc/scripts_custom.conf
           subPath: scripts_custom.conf
+        - name: customizations
+          mountPath: /rathena/conf/groups.yml
+          subPath: groups.yml
         resources:
           requests:
             memory: "256Mi"
@@ -52,6 +55,9 @@ spec:
         - name: customizations
           mountPath: /rathena/npc/scripts_custom.conf
           subPath: scripts_custom.conf
+        - name: customizations
+          mountPath: /rathena/conf/groups.yml
+          subPath: groups.yml
         resources:
           requests:
             memory: "256Mi"
@@ -77,6 +83,9 @@ spec:
         - name: customizations
           mountPath: /rathena/npc/scripts_custom.conf
           subPath: scripts_custom.conf
+        - name: customizations
+          mountPath: /rathena/conf/groups.yml
+          subPath: groups.yml
         resources:
           requests:
             memory: "256Mi"
