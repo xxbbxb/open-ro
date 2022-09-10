@@ -16,20 +16,50 @@ spec:
       labels:
         app: rathena
     spec:
+      initContainers:
+      - name: config-apply
+        image: simonovbs/rathena:0.0.4
+        imagePullPolicy: IfNotPresent
+        command: [ "/bin/bash", "-c", "--" ]
+        args:
+          - >
+            set -o pipefail;
+            cp -af npc/* /out/rathena/npc/ &&
+            cp -aLf /in/npc/* /out/rathena/npc/ && 
+            cp -af conf/* /out/rathena/conf/ &&
+            cp -aLf /in/conf/* /out/rathena/conf/ &&
+            (
+              cd /in/import ; ls -1 * |
+              xargs -I {} bash -c "cat {} | envsubst > /out/rathena/conf/import/{}"
+            )
+        envFrom:
+        - secretRef:
+            name: env-secret
+        volumeMounts:
+        - name: conf
+          mountPath: /out/rathena/conf
+        - name: npc
+          mountPath: /out/rathena/npc
+        - name: in-conf
+          mountPath: /in/conf/
+        - name: in-import
+          mountPath: /in/import/
+        - name: in-npc
+          mountPath: /in/npc/
+        securityContext:
+          runAsUser: 2000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
       containers:
       - name: map-server
-        image: simonovbs/rathena:0.0.2
+        image: simonovbs/rathena:0.0.4
         imagePullPolicy: IfNotPresent
         command: [./map-server]
         volumeMounts:
-        - name: conf-import
-          mountPath: /rathena/conf/import
-        - name: customizations
-          mountPath: /rathena/npc/scripts_custom.conf
-          subPath: scripts_custom.conf
-        - name: customizations
-          mountPath: /rathena/conf/groups.yml
-          subPath: groups.yml
+        - name: conf
+          mountPath: /rathena/conf
+        - name: npc
+          mountPath: /rathena/npc
         resources:
           requests:
             memory: "256Mi"
@@ -38,26 +68,26 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         ports:
-          - containerPort: 5121
-            name: map
+        - containerPort: 5121
+          name: map
         livenessProbe:
           initialDelaySeconds: 60
           periodSeconds: 60
           tcpSocket:
             port: 5121
+        securityContext:
+          runAsUser: 2000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
       - name: char-server
-        image: simonovbs/rathena:0.0.2
+        image: simonovbs/rathena:0.0.4
         imagePullPolicy: IfNotPresent
         command: [./char-server]
         volumeMounts:
-        - name: conf-import
-          mountPath: /rathena/conf/import
-        - name: customizations
-          mountPath: /rathena/npc/scripts_custom.conf
-          subPath: scripts_custom.conf
-        - name: customizations
-          mountPath: /rathena/conf/groups.yml
-          subPath: groups.yml
+        - name: conf
+          mountPath: /rathena/conf
+        - name: npc
+          mountPath: /rathena/npc
         resources:
           requests:
             memory: "256Mi"
@@ -66,26 +96,26 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         ports:
-          - containerPort: 6121
-            name: char
+        - containerPort: 6121
+          name: char
         livenessProbe:
           initialDelaySeconds: 60
           periodSeconds: 60
           tcpSocket:
             port: 6121
+        securityContext:
+          runAsUser: 2000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
       - name: login-server
-        image: simonovbs/rathena:0.0.2
+        image: simonovbs/rathena:0.0.4
         imagePullPolicy: IfNotPresent
         command: [./login-server]
         volumeMounts:
-        - name: conf-import
-          mountPath: /rathena/conf/import
-        - name: customizations
-          mountPath: /rathena/npc/scripts_custom.conf
-          subPath: scripts_custom.conf
-        - name: customizations
-          mountPath: /rathena/conf/groups.yml
-          subPath: groups.yml
+        - name: conf
+          mountPath: /rathena/conf
+        - name: npc
+          mountPath: /rathena/npc
         resources:
           requests:
             memory: "256Mi"
@@ -94,17 +124,28 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         ports:
-          - containerPort: 6900
-            name: char
+        - containerPort: 6900
+          name: char
         livenessProbe:
           initialDelaySeconds: 60
           periodSeconds: 60
           tcpSocket:
             port: 6900
+        securityContext:
+          runAsUser: 2000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
       volumes:
-      - name: conf-import
-        secret:
-          secretName: conf-import
-      - name: customizations
+      - name: conf
+        emptyDir: {}
+      - name: npc
+        emptyDir: {}
+      - name: in-conf
         configMap:
-          name: customizations
+          name: conf
+      - name: in-import
+        configMap:
+          name: import
+      - name: in-npc
+        configMap:
+          name: npc

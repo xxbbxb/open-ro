@@ -1,0 +1,59 @@
+//--------------------------------------------------------------
+// rAthena Battle Configuration File
+// Originally Translated by Peter Kieser <pfak@telus.net>
+// Made in to plainer English by Ancyker
+//--------------------------------------------------------------
+// Note 1: Value is a config switch (on/off, yes/no or 1/0)
+// Note 2: Value is in percents (100 means 100%)
+// Note 3: The max level of classes is stored in the exp table.
+//         See files db/exp.txt and db/exp2.txt to change them.
+//--------------------------------------------------------------
+
+// Rate at which exp. is given. (Note 2)
+base_exp_rate: 2500
+
+// Rate at which job exp. is given. (Note 2)
+job_exp_rate: 2500
+
+// Turn this on to allow a player to level up more than once from a kill. (Note 1)
+multi_level_up: 1
+
+// MVP bonus exp rate. (Note 2)
+mvp_exp_rate: 2500
+
+// Rate of base/job exp given by NPCs. (Note 2)
+quest_exp_rate: 2500
+
+// The rate the common items are dropped (Items that are in the ETC tab, besides card)
+item_rate_common: 1500
+item_rate_common_boss: 1500
+item_rate_common_mvp: 1500
+
+// The rate healing items are dropped (items that restore HP or SP)
+item_rate_heal: 1500
+item_rate_heal_boss: 1500
+item_rate_heal_mvp: 1500
+
+// The rate at which usable items (in the item tab) other then healing items are dropped.
+item_rate_use: 1500
+item_rate_use_boss: 1500
+item_rate_use_mvp: 1500
+
+// The rate at which equipment is dropped.
+item_rate_equip: 1500
+item_rate_equip_boss: 1500
+item_rate_equip_mvp: 1500
+
+// The rate at which cards are dropped
+item_rate_card: 1500
+item_rate_card_boss: 1500
+item_rate_card_mvp: 1500
+
+// The rate adjustment for the MVP items that the MVP gets directly in their inventory
+item_rate_mvp: 1500
+
+// The rate adjustment for card-granted item drops.
+item_rate_adddrop: 1500
+
+// Rate adjustment for Treasure Box drops (these override all other modifiers)
+item_rate_treasure: 1500

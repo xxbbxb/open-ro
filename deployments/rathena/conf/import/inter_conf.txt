@@ -1,0 +1,26 @@
+login_server_ip: $MYSQL_IP
+login_server_id: $MYSQL_USER
+login_server_pw: $MYSQL_PASSWORD
+login_server_db: $MYSQL_MAIN_DB
+
+ipban_db_ip: $MYSQL_IP
+ipban_db_id: $MYSQL_USER
+ipban_db_pw: $MYSQL_PASSWORD
+ipban_db_db: $MYSQL_MAIN_DB
+
+char_server_ip: $MYSQL_IP
+char_server_id: $MYSQL_USER
+char_server_pw: $MYSQL_PASSWORD
+char_server_db: $MYSQL_MAIN_DB
+
+map_server_ip: $MYSQL_IP
+map_server_id: $MYSQL_USER
+map_server_pw: $MYSQL_PASSWORD
+map_server_db: $MYSQL_MAIN_DB
+
+log_db_db: $MYSQL_LOGS_DB
+log_db_ip: $MYSQL_LOGS_IP
+log_db_id: $MYSQL_LOGS_USER
+log_db_pw: $MYSQL_LOGS_PASSWORD
+
+party_share_level: 15

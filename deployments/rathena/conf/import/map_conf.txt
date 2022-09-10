@@ -1,0 +1,4 @@
+userid: $SERVER_USER
+passwd: $SERVER_PASSWORD
+char_ip: 127.0.0.1
+map_ip: $SERVER_PUBLIC_IP

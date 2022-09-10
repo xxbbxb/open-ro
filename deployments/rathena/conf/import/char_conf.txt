@@ -1,0 +1,8 @@
+userid: $SERVER_USER
+passwd: $SERVER_PASSWORD
+login_ip: 127.0.0.1
+char_ip: 127.0.0.1
+pincode_enabled: no
+server_name: openro
+char_ip: $SERVER_PUBLIC_IP
+wisp_server_name: Server

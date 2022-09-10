@@ -4,15 +4,22 @@ resources:
 - deployment.yaml
 - service.yaml
 secretGenerator:
-- name: conf-import
-  files:
-  - conf-import/battle_conf.txt
-  - conf-import/char_conf.txt
-  - conf-import/inter_conf.txt
-  - conf-import/map_conf.txt
-  
+- name: env-secret
+  envs:
+  - .env
 configMapGenerator:
-- name: customizations
+- name: conf
   files:
-    - groups.yml=customizations/groups.yml
-    - scripts_custom.conf=customizations/npc_scripts_custom.conf
+  - conf/groups.yml
+- name: import
+  files:
+  - conf/import/battle_conf.txt
+  - conf/import/char_conf.txt
+  - conf/import/inter_conf.txt
+  - conf/import/map_conf.txt
+- name: npc
+  files:
+  - npc/scripts_custom.conf
+  - npc/healernpc.txt
+  - npc/resetnpc.txt
+  - npc/warpernpc.txt
