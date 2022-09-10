@@ -6,9 +6,9 @@ draft: false
 
 #### How to create game account/change password?
 
-Using telegram [bot](https://t.me/openrohelperbot) send `account` and follow instructions. Syntax is very simple `account <desidred-name> <password-to-account> <sex M of F>` for example command `account xxbbxb passw0rd M` will create male account. To change password send `account <your-existing-account-name> <new-password>`.
+Using telegram [bot](https://t.me/openrohelperbot) send `account` and follow instructions. Syntax is very simple `account <desidred-name> <password-to-account> <sex M or F>` for example command `account xxbbxb passw0rd M` will create male account. To change password send `account <your-existing-account-name> <new-password>`.
 
-#### I dont remember my account name, where can I get it?
+#### I don't remember my account name, where can I get it?
 
 send `accounts` and bot will tell you accounts you have.
 
