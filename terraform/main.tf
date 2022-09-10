@@ -156,7 +156,7 @@ resource "cloudflare_record" "www" {
   value = "xxbbxb.github.io"
 }
 
-resource "cloudflare_record" "www" {
+resource "cloudflare_record" "google-verification" {
   zone_id = cloudflare_zone.open-ro.id
   type = "TXT"
   name = "open-ro.com"
