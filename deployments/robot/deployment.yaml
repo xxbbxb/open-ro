@@ -30,8 +30,8 @@ spec:
             memory: "64Mi"
             cpu: "100m"
         ports:
-          - containerPort: 5555
-            name: http
+        - containerPort: 5555
+          name: http
         livenessProbe:
           initialDelaySeconds: 5
           periodSeconds: 60

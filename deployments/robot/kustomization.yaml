@@ -7,4 +7,4 @@ resources:
 secretGenerator:
 - name: open-ro-robot
   envs:
-    - .env
+  - .env
