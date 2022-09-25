@@ -14,7 +14,7 @@ params:
     # Main hero title
     title: Simple. Open.
     subtitle: >
-      We are running rathena Pre-RE on Kubernetes. Our rates 25x25x15 max lvl: 99/70.
+      We are running rathena Pre-RE in Kubernetes. Our rates 25x25x15 max lvl: 99/70.
       No paid content, No custom content. Launched on 10/Sep/2022 and available to everyone.
       Don't hesitate to ask questions.
     buttontext: Our Discord

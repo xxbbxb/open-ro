@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 128Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mysql
+        image: mariadb:bionic
+        imagePullPolicy:  IfNotPresent
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: ragnarok
+        - name: MYSQL_DATABASE
+          value: rathena
+        - name: MYSQL_USER
+          value: ragnarok
+        - name: MYSQL_PASSWORD
+          value: ragnarok
+        volumeMounts:
+          - name: mariadb-init
+            mountPath: /docker-entrypoint-initdb.d/
+          - name: data
+            mountPath: /var/lib/mysql
+        ports:
+        - containerPort: 3306
+          name: mysql
+      volumes:
+      - name: mariadb-init
+        configMap:
+          name: mariadb-init
+      - name: data
+        persistentVolumeClaim:
+          claimName: mariadb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+spec:
+  selector:
+    app: mariadb
+  ports:
+  - port: 3306
+    targetPort: 3306

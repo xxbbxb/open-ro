@@ -3,10 +3,6 @@ kind: Kustomization
 resources:
 - deployment.yaml
 - service.yaml
-secretGenerator:
-- name: env-secret
-  envs:
-  - .env
 configMapGenerator:
 - name: conf
   files:

@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- mariadb.yaml
+- ../base
+secretGenerator:
+- name: env-secret
+  envs:
+  - .env
+configMapGenerator:
+- name: mariadb-init
+  options:
+    disableNameSuffixHash: true
+  files:
+  - main.sql
+  - logs.sql
+  - user_admin.sql
+patches:
+- target:
+    version: v1
+    kind: Deployment
+    name: rathena
+  patch: |
+   - op: add
+     path: /spec/template/spec/hostNetwork
+     value: true
+- target:
+    version: v1
+    kind: Service
+    name: rathena
+  patch: |
+    - op: replace
+      path: /spec/type
+      value: NodePort
