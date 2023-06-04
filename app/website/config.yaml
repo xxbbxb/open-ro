@@ -17,8 +17,8 @@ params:
       We are running rathena Pre-RE in Kubernetes. Our rates 25x25x15 max lvl: 99/70.
       No paid content, No custom content. Launched on 10/Sep/2022 and available to everyone.
       Don't hesitate to ask questions.
-    buttontext: Our Discord
-    buttonlink: "https://discord.gg/2DQ36Vxc"
+    buttontext: Text me on telegram
+    buttonlink: "https://t.me/+4EsP4OhU7-IzNDE6"
     image: poring.png
   section1:
     title: Server features
@@ -73,10 +73,8 @@ params:
     - link: https://github.com/xxbbxb/open-ro
       # Icons are from Font Awesome
       icon: github
-    - link: https://t.me/openrohelperbot
+    - link: https://t.me/+4EsP4OhU7-IzNDE6
       icon: telegram
-    - link: https://discord.gg/2DQ36Vxc
-      icon: discord
     bulmalogo: false
     quicklinks:
       column2:
