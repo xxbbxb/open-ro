@@ -18,4 +18,4 @@ Nothing, you are free to delete bot whenever your want. Once account created it 
 
 #### I have another question
 
-Sorry we don't have forum or support chat on our site for now. Ask your question on [telegram](https://t.me/+4EsP4OhU7-IzNDE6) in #questions channel
+Sorry we don't have forum or support chat on our site for now. Ask your question on [telegram](https://t.me/openrohelp) in #questions channel

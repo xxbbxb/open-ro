@@ -18,7 +18,7 @@ params:
       No paid content, No custom content. Launched on 10/Sep/2022 and available to everyone.
       Don't hesitate to ask questions.
     buttontext: Text me on telegram
-    buttonlink: "https://t.me/+4EsP4OhU7-IzNDE6"
+    buttonlink: "https://t.me/openrohelp"
     image: poring.png
   section1:
     title: Server features
@@ -73,7 +73,7 @@ params:
     - link: https://github.com/xxbbxb/open-ro
       # Icons are from Font Awesome
       icon: github
-    - link: https://t.me/+4EsP4OhU7-IzNDE6
+    - link: https://t.me/openrohelp
       icon: telegram
     bulmalogo: false
     quicklinks:

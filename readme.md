@@ -18,4 +18,4 @@ Why else to write the code if don't run it? [open-ro.com](https://open-ro.com) i
 
 #### Have a questions?
 
-Raise an issue or text me on [telegram]https://t.me/+4EsP4OhU7-IzNDE6)
+Raise an issue or text me on [telegram]https://t.me/openrohelp)

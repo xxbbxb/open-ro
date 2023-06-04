@@ -18,4 +18,4 @@ You are downloading "Ragnarok Offline" client initially built by [anacondaq](htt
 
 #### Bring your own client
 
-Building your own client is hard. But if you know how to do it or already have your own favourite client use it. Open-RO server: ip 74.220.24.74 port 6900, server is built with PACKETVER 20190605 you might need it to get right version of Ragexe. If you want share your client with other players text me on telegram https://t.me/+4EsP4OhU7-IzNDE6
+Building your own client is hard. But if you know how to do it or already have your own favourite client use it. Open-RO server: ip 74.220.24.74 port 6900, server is built with PACKETVER 20190605 you might need it to get right version of Ragexe. If you want share your client with other players text me on telegram https://t.me/openrohelp
