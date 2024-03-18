@@ -9,12 +9,12 @@ I use [rancher-desktop](https://github.com/rancher-sandbox/rancher-desktop/relea
 ```
 kustomize 
 kubectl apply -k deployments/local/. 
-#work in progress. you migght need to forward a looot of ports to play
+#work in progress. you need to forward ports and other things
 ```
 
 #### Running public server
 
-Why else to write the code if don't run it? [open-ro.com](https://open-ro.com) is real ragnarok server running in Kubernetes using code from this repo without additional modifications. Run you own server if you want or use Open-RO
+Why else to write the code if don't run it? [xxbbxb.github.io/open-ro/](https://xxbbxb.github.io/open-ro/) is real ragnarok server running in Kubernetes using code from this repo without additional modifications. Run you own server if you want or use Open-RO
 
 #### Have a questions?
 
